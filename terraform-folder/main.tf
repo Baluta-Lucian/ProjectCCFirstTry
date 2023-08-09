@@ -13,8 +13,8 @@ resource "google_container_cluster" "gke_cluster" {
   min_master_version = "1.20" */
   remove_default_node_pool = true
 
-  provider = google-beta
-
+  /* provider = google-beta */
+/* 
   addons_config {
     horizontal_pod_autoscaling {
       disabled = false
@@ -26,7 +26,7 @@ resource "google_container_cluster" "gke_cluster" {
     oauth_scopes = [
         "https://www.googleapis.com/auth/cloud-platform",
     ]
-  } */
+  } */ 
   
 }
 
@@ -77,7 +77,7 @@ resource "google_container_node_pool" "gke_node_pool" {
 
     autoscaling{
         min_node_count = 2
-        max_node_count = 5
+        max_node_count = 7
 
     }
   
