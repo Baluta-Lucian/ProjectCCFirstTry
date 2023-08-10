@@ -30,6 +30,7 @@ pipeline {
 			steps{
 				script {
 					web_app = docker.build("${env.gcp_project_name}/${env.microservice_name}","-f ./docker-folder/Dockerfile ./ ")
+					echo "${web_app}"
 				}
 			}
 		}
