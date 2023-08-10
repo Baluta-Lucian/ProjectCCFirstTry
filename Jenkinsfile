@@ -50,7 +50,7 @@ pipeline {
 // 				expression{env.GIT_BRANCH == 'origin/main'}
 // 			}
 			steps{
-				step([$class: 'KubernetesEngineBuilder', projectID: "${gcp_project_name}", clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', verifyDeployments: true]) 
+				step([$class: 'KubernetesEngineBuilder', projectId: "${gcp_project_name}", clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', verifyDeployments: true]) 
 					echo "Deployment Finished ..."
 			}    
 		}
