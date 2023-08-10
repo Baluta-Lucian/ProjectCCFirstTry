@@ -3,6 +3,9 @@ pipeline {
 	environment {
 		CLUSTER_NAME = 'firstccprojecttry-gke-cluster'
 		LOCATION = 'europe-west3-a'
+		gcp_project_name = 'firstccprojecttry'
+		microservice_name = 'web-app'
+		gcr_url = 'https://eu.gcr.io'
 	}
 	stages {
 
@@ -24,7 +27,7 @@ pipeline {
 // 			}
 			steps{
 				script {
-					web_app = docker.build("${gcp_project_name}/${microservice_name}","-f ./docker-folder/Dockerfile ./ ")
+					web_app = docker.build("${env.gcp_project_name}/${env.microservice_name}","-f ./docker-folder/Dockerfile ./ ")
 				}
 			}
 		}
@@ -35,7 +38,7 @@ pipeline {
 // 			}
 			steps{
 				script {
-					docker.withRegistry("${gcr_url}", "gcr:${gcr_admin_key}") {
+					docker.withRegistry("${env.gcr_url}", "gcr:gcr-admin-key") {
 						web_app.push("latest")
 					}                    
 				}
