@@ -1,23 +1,47 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: web-app
-  name: web-app
+  namespace: "web-app"
+  name: "default"
 spec:
   selector:
     matchLabels:
-      app: web-app
+      app: "web-app"
   template:
     metadata:
       labels:
-        app: web-app
+        app: "web-app"
     spec:
       containers:
-      - name: web-app
-        image: eu.gcr.io/firstccprojecttry/web-app:latest
+      - name: "web-app"
+        image: "eu.gcr.io/firstccprojecttry/web-app:latest"
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+
+---
+apiVersion: "autoscaling/v2"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "web-app-hpa-9hjl"
+  namespace: "default"
+  labels:
+    app: "web-app"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "web-app"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      target:
+        type: "Utilization"
+        averageUtilization: 80
 
 ---
 
@@ -25,8 +49,8 @@ apiVersion: v1
 kind: Service
 
 metadata:
-  namespace: web-app
-  name: web-app
+  namespace: "default"
+  name: "web-app"
 spec:
   type: LoadBalancer
   selector:
