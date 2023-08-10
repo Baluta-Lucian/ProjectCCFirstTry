@@ -20,7 +20,7 @@ pipeline {
 // 			}
 			steps{
 				script {
-					web_app = docker.build("firstccprojecttry/web-app","-f ./docker-folder/Dockerfile ./ ")
+					web_app = docker.build("${gcp_project_name}/${microservice_name}","-f ./docker-folder/Dockerfile ./ ")
 				}
 			}
 		}
@@ -31,7 +31,7 @@ pipeline {
 // 			}
 			steps{
 				script {
-					docker.withRegistry('https://eu.gcr.io', 'gcr:gcr-admin-key') {
+					docker.withRegistry("${gcr_url}", "gcr:${gcr_admin_key}") {
 						web_app.push("latest")
 					}                    
 				}
