@@ -1,5 +1,9 @@
 pipeline {
 	agent any
+	environment {
+		CLUSTER_NAME = 'firstccprojecttry-gke-cluster'
+		LOCATION = 'europe-west3-a'
+	}
 	stages {
 
 		stage('Checkout scm') {
@@ -43,7 +47,8 @@ pipeline {
 // 				expression{env.GIT_BRANCH == 'origin/main'}
 // 			}
 			steps{
-				build job: 'deploy-to-k8s'
+				step([$class: 'KubernetesEngineBuilder', projectID: "${gcp_project_name}", clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', verifyDeployments: true]) 
+					echo "Deployment Finished ..."
 			}    
 		}
 	}
