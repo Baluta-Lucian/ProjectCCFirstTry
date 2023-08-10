@@ -1,11 +1,13 @@
 pipeline {
 	agent any
 	environment {
-		CLUSTER_NAME = 'firstccprojecttry-gke-cluster'
-		LOCATION = 'europe-west3-a'
-		gcp_project_name = 'firstccprojecttry'
-		microservice_name = 'web-app'
+		PROJECT = "firstccprojecttry"
+		CLUSTER_NAME = "firstccprojecttry-gke-cluster"
+		LOCATION = "europe-west3-a"
+		gcp_project_name = "firstccprojecttry"
+		microservice_name = "web-app"
 		gcr_url = 'https://eu.gcr.io'
+		JENKINS_CRED = "${PROJECT}"
 	}
 	stages {
 
@@ -50,7 +52,7 @@ pipeline {
 // 				expression{env.GIT_BRANCH == 'origin/main'}
 // 			}
 			steps{
-				step([$class: 'KubernetesEngineBuilder', projectId: "${gcp_project_name}", clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', verifyDeployments: true]) 
+				step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.JENKINS_CRED, verifyDeployments: true]) 
 					echo "Deployment Finished ..."
 			}    
 		}
