@@ -16,17 +16,7 @@ pipeline {
 				checkout scm
 			}
 		}
-		
-        // stage('Test branch') {
-        //     steps{
-        //         echo "${env.GIT_BRANCH}"
-        //     }
-        // }
-        
 		stage('Build image with tag latest for main branch') {
-// 			when{
-// 				expression{env.GIT_BRANCH == 'origin/main'}
-// 			}
 			steps{
 				script {
 					web_app = docker.build("${env.gcp_project_name}/${env.microservice_name}","-f ./docker-folder/Dockerfile ./docker-folder")
@@ -36,9 +26,6 @@ pipeline {
 		}
 
 		stage('Push image with tag latest for main branch') {
-// 			when{
-// 				expression{env.GIT_BRANCH == 'origin/main'}
-// 			}
 			steps{
 				script {
 					docker.withRegistry("${env.gcr_url}", "gcr:gcr-admin-key") {
@@ -49,9 +36,6 @@ pipeline {
 		}
 
 		stage ('Deploy image on main cluster') {
-// 			when{
-// 				expression{env.GIT_BRANCH == 'origin/main'}
-// 			}
 			steps{
 				step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: "gcr-admin-key", verifyDeployments: true]) 
 					echo "Deployment Finished ..."
