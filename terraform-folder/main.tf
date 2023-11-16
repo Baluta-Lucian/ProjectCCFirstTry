@@ -9,24 +9,14 @@ resource "google_container_cluster" "gke_cluster" {
   name = "${var.project_id}-gke-cluster"
   location = "${var.region}-a"
   initial_node_count = 2
-  /* node_version = "1.20"
-  min_master_version = "1.20" */
   remove_default_node_pool = true
 
-  /* provider = google-beta */
-/* 
   addons_config {
     horizontal_pod_autoscaling {
       disabled = false
       
     }
   }
-  /* node_config {
-    machine_type = "n1-standard-1"
-    oauth_scopes = [
-        "https://www.googleapis.com/auth/cloud-platform",
-    ]
-  } */ 
   
 }
 
@@ -82,22 +72,6 @@ resource "google_container_node_pool" "gke_node_pool" {
     }
   
 }
-
-/* resource "google_container_node_pool_autoscaling" "gke_node_pool_autoscaler" {
-    node_pool_id = google_container_node_pool.gke_node_pool.id
-    autoscaling_profile {
-        min_node_count = 1
-        max_node_count = 5
-    }
-    autoscaling{
-        min_node_count = 1
-        max_node_count = 5
-    }
-} */
-
-
-
-
 # VPC
 
 resource "google_compute_network" "vpc" {
